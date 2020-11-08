@@ -59,6 +59,9 @@ def int_or_none(x):
 
 # API ##############################################################################################
 
+s = requests.Session()
+s.headers.update(HEADERS)
+
 def get(url, retries=1):
     start_time = time.time()
 
@@ -66,7 +69,7 @@ def get(url, retries=1):
     while retries > 0:
         log.loud(url)
         try:
-            response = requests.get(url, headers=HEADERS, timeout=2)
+            response = s.get(url, headers=HEADERS, timeout=2)
             response.raise_for_status()
             break
         except requests.exceptions.HTTPError as exc:
